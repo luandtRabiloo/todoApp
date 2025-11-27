@@ -4,12 +4,15 @@ import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
 dotenv.config();
 const app = express();
-connectDB();
 
 app.use("/api/tasks", tasksRouter);
+app.use(express.json());
 
 const PORT = process.env.PORT;
 console.log(PORT);
-app.listen(PORT, () => {
-  console.log("Hello world !");
+console.log("MONGO_URI =", process.env.MONGO_URI);
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log("Hello world !");
+  });
 });
